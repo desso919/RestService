@@ -1,19 +1,16 @@
-﻿using System;
+﻿
 using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Serialization;
-using System.ServiceModel;
-using System.Text;
-
 namespace RestService
 {
     // NOTE: You can use the "Rename" command on the "Refactor" menu to change the class name "HospitalService" in code, svc and config file together.
     // NOTE: In order to launch WCF Test Client for testing this service, please select HospitalService.svc or HospitalService.svc.cs at the Solution Explorer and start debugging.
     public class HospitalService : IHospitalService
     {
-        public string getPatient(string id)
+        public List<Patient> getPatient(string id)
         {
-            return "Patient id is: " + id;
+            ViewModel model = new ViewModel();
+            model.getPatientFromDB();
+            return model.Patients;
         }
 
         public string getHospital(string id)
@@ -31,9 +28,9 @@ namespace RestService
             return "Patient Username is: " + patient_username;
         }
 
-        public string logonPatient(string patient_username, string password)
+        public string logonPatient(string patient_username)
         {
-            return "Username is: " + patient_username + " and password is" + password;
+            return "Loggon user is: " + patient_username;
         }
 
         public string getHospitalRecord(string patient_id)
