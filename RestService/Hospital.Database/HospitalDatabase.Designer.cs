@@ -1,4 +1,4 @@
-﻿// T4 code generation is enabled for model 'C:\Users\Десислав\Documents\GitHub\PS_Project\DBApi_RestService\RestService\RestService\RestService\PatientEntity.edmx'. 
+﻿// T4 code generation is enabled for model 'C:\Users\Десислав\Documents\GitHub\PS_Project\DBApi_RestService\RestService\RestService\Hospital.Databse\HospitalDatabase.edmx'. 
 // To enable legacy code generation, change the value of the 'Code Generation Strategy' designer
 // property to 'Legacy ObjectContext'. This property is available in the Properties Window when the model
 // is open in the designer.

@@ -7,16 +7,16 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace RestService
+namespace Hospital.Databse
 {
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class PatientEntities : DbContext
+    public partial class HospitalDatabaseEntities : DbContext
     {
-        public PatientEntities()
-            : base("name=PatientEntities")
+        public HospitalDatabaseEntities()
+            : base("name=HospitalDatabaseEntities")
         {
         }
     
@@ -25,6 +25,12 @@ namespace RestService
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<Allergy> Allergies { get; set; }
+        public virtual DbSet<Doctor> Doctors { get; set; }
+        public virtual DbSet<Gender> Genders { get; set; }
+        public virtual DbSet<History> Histories { get; set; }
+        public virtual DbSet<Hospital> Hospitals { get; set; }
         public virtual DbSet<Patient> Patients { get; set; }
+        public virtual DbSet<Scheduled_visitations> Scheduled_visitations { get; set; }
     }
 }

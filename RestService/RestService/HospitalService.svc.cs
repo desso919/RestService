@@ -1,5 +1,9 @@
 ﻿
 using System.Collections.Generic;
+using Hospital.Models;
+using Hispital.Services.ServiceImplementations;
+
+
 namespace RestService
 {
     // NOTE: You can use the "Rename" command on the "Refactor" menu to change the class name "HospitalService" in code, svc and config file together.
@@ -8,9 +12,8 @@ namespace RestService
     {
         public List<Patient> getPatient(string id)
         {
-            ViewModel model = new ViewModel();
-            model.getPatientFromDB();
-            return model.Patients;
+            PatientService patientService = new PatientService();
+            return patientService.GetAllPatients();
         }
 
         public string getHospital(string id)
@@ -36,6 +39,11 @@ namespace RestService
         public string getHospitalRecord(string patient_id)
         {
             return "Hospital record for patient: " + patient_id;
+        }
+      
+        public string test()
+        {
+             return "This is test: ";
         }
     }
 }

@@ -71,11 +71,6 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Data\HospitalDB.mdf" />
-    <Content Include="App_Data\HospitalDB_log.ldf">
-      <DependentUpon>HospitalDB.mdf</DependentUpon>
-    </Content>
-    <Content Include="Database\HospitalDB.mdf" />
     <Content Include="HospitalService.svc" />
     <Content Include="Web.config" />
   </ItemGroup>
@@ -84,47 +79,14 @@
       <DependentUpon>HospitalService.svc</DependentUpon>
     </Compile>
     <Compile Include="IHospitalService.cs" />
-    <Compile Include="Patient.cs">
-      <DependentUpon>PatientEntity.tt</DependentUpon>
-    </Compile>
-    <Compile Include="PatientEntity.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>PatientEntity.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="PatientEntity.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>PatientEntity.tt</DependentUpon>
-    </Compile>
-    <Compile Include="PatientEntity.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>PatientEntity.edmx</DependentUpon>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModel.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
-    <EntityDeploy Include="PatientEntity.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>PatientEntity.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="PatientEntity.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>PatientEntity.edmx</DependentUpon>
-      <LastGenOutput>PatientEntity.Context.cs</LastGenOutput>
-    </Content>
-    <Content Include="PatientEntity.edmx.diagram">
-      <DependentUpon>PatientEntity.edmx</DependentUpon>
-    </Content>
-    <Content Include="PatientEntity.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>PatientEntity.edmx</DependentUpon>
-      <LastGenOutput>PatientEntity.cs</LastGenOutput>
-    </Content>
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -134,6 +96,16 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Hispital.Services\Hispital.Services.csproj">
+      <Project>{986e7ee6-804e-4144-a881-0ff0887ab6b6}</Project>
+      <Name>Hispital.Services</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Hospital.Models\Hospital.Models.csproj">
+      <Project>{32c7a440-3852-4b11-b480-959ed86b0e40}</Project>
+      <Name>Hospital.Models</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
