@@ -1,5 +1,5 @@
 ﻿using Hispital.Services.ServiceInterfaces;
-using Hospital.Databse;
+using Hospital.Database;
 using Hospital.Models;
 using System;
 using System.Collections.Generic;
@@ -11,17 +11,20 @@ namespace Hispital.Services.ServiceImplementations
 {
     public class PatientService : IPatientService
     {
-        public List<Hospital.Models.Patient> GetAllPatients()
+        public List<Hospital.Models.Patient> GetAllPatients(string id)
         {
             HospitalDatabaseEntities database = new HospitalDatabaseEntities();
-            List<Hospital.Databse.Patient> DatabasePatients = new List<Hospital.Databse.Patient>();
+            List<Hospital.Database.Patient> DatabasePatients = new List<Hospital.Database.Patient>();
             List<Hospital.Models.Patient> ModelPatients = new List<Hospital.Models.Patient>();
-      
-            var result = (from patient in database.Patients               
-                          select patient).ToList();
+
+            long patient_id = Convert.ToInt64(id);
+            var result = database.Patients.Where(p => p.patient_id == patient_id).ToList();
             DatabasePatients = result;
 
-            ModelPatients[0].Map(DatabasePatients[0]);
+            Hospital.Models.Patient pat = new Hospital.Models.Patient();
+            pat.Map(DatabasePatients.FirstOrDefault()); 
+
+            ModelPatients.Add(pat);
             return ModelPatients;
         }
     }

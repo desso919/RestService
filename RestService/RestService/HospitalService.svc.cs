@@ -13,17 +13,19 @@ namespace RestService
         public List<Patient> getPatient(string id)
         {
             PatientService patientService = new PatientService();
-            return patientService.GetAllPatients();
+            return patientService.GetAllPatients(id);
         }
 
-        public string getHospital(string id)
+        public List<HospitalModel> getHospital(string id)
         {
-            return "Hospital id is: " + id;
+            ClinicService clinicService = new ClinicService();
+            return clinicService.getHospital(id);
         }
 
-        public string getDoctor(string id)
+        public List<Doctor> getDoctor(string id)
         {
-            return "Doctor id is: " + id;
+            DoctorService clinicService = new DoctorService();
+            return clinicService.getDoctor(id);
         }
 
        public string getPatientByUsername(string patient_username)
@@ -39,11 +41,6 @@ namespace RestService
         public string getHospitalRecord(string patient_id)
         {
             return "Hospital record for patient: " + patient_id;
-        }
-      
-        public string test()
-        {
-             return "This is test: ";
         }
     }
 }

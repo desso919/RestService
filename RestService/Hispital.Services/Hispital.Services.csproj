@@ -47,7 +47,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ServiceImplementations\ClinicService.cs" />
+    <Compile Include="ServiceImplementations\DoctorService.cs" />
     <Compile Include="ServiceImplementations\PatientService.cs" />
+    <Compile Include="ServiceInterfaces\IClinicService.cs" />
+    <Compile Include="ServiceInterfaces\IDoctorService.cs" />
     <Compile Include="ServiceInterfaces\IPatientService.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Hospital.Databse;
+using Hospital.Database;
 
 namespace Hospital.Models
 {
@@ -30,14 +30,18 @@ namespace Hospital.Models
             get { return string.Format("{0} {1} {2}", FirstName, SecondName, LastName); }
         }
 
-        public void Map(Hospital.Databse.Patient other) {
+        public void Map(Hospital.Database.Patient other)
+        {
             Id = other.patient_id;
             Username = other.username;
             FirstName = other.first_name;
             SecondName = other.second_name;
             LastName = other.last_name;
             Age = other.age;
-            BirhtDate = other.birth_date.Value;
+            if (other.birth_date.HasValue)
+            {
+                BirhtDate = other.birth_date.Value;
+            }
         }
 
     }

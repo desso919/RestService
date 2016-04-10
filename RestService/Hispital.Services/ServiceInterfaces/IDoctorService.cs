@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace Hispital.Services.ServiceInterfaces
 {
-    public interface IPatientService
+    public interface IDoctorService
     {
-        List<Patient> GetAllPatients(string id);
+        List<Doctor> getDoctor(string doctor_id);
     }
 }
