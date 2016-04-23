@@ -1,6 +1,7 @@
 ﻿using Hispital.Services.ServiceInterfaces;
 using Hospital.Database;
 using Hospital.Models;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,21 +12,62 @@ namespace Hispital.Services.ServiceImplementations
 {
     public class DoctorService : IDoctorService
     {
-        public List<Hospital.Models.Doctor> getDoctor(string doctor_id)
+        public string GetDoctor(long doctor_id)
+        {
+            HospitalDatabaseEntities database = new HospitalDatabaseEntities();
+
+            var resultSet = database.Doctors.Where(doctor => doctor.doctor_id == doctor_id).ToList();
+
+            Hospital.Models.Doctor findedDoctor = new Hospital.Models.Doctor();
+
+            if (resultSet.Count == 1)
+            {
+                findedDoctor.Map(resultSet.FirstOrDefault());
+                return JsonConvert.SerializeObject(findedDoctor);
+            }
+
+            return JsonConvert.SerializeObject(new { }); 
+        }
+
+
+        public string GetDoctorsByHospitalId(long hospital_id)
         {
             HospitalDatabaseEntities database = new HospitalDatabaseEntities();
             List<Hospital.Models.Doctor> doctors = new List<Hospital.Models.Doctor>();
 
-            long requested_doctor_id = Convert.ToInt64(doctor_id);
-            var result = database.Doctors.Where(doctor => doctor.hospital_id == requested_doctor_id).ToList();
+            var resultSet = database.Doctors.Where(doctor => doctor.hospital_id == hospital_id).ToList();
 
-            Hospital.Models.Doctor requested_doctor = new Hospital.Models.Doctor();
-            if (result.Count > 0)
+            if (resultSet.Count > 0)
             {
-                requested_doctor.Map(result.FirstOrDefault());
-                doctors.Add(requested_doctor);
+                foreach (var doctor in resultSet)
+                {
+                    Hospital.Models.Doctor temp = new Hospital.Models.Doctor();
+                    temp.Map(doctor);
+                    doctors.Add(temp);
+                }
+                return JsonConvert.SerializeObject(doctors);
             }
-            return doctors;
+            return JsonConvert.SerializeObject(new { });
+        }
+
+        public string GetAllDoctors()
+        {
+            HospitalDatabaseEntities database = new HospitalDatabaseEntities();
+            List<Hospital.Models.Doctor> doctors = new List<Hospital.Models.Doctor>();
+
+            var resultSet = database.Doctors.ToList();
+
+            if (resultSet.Count > 0)
+            {
+                foreach (var doctor in resultSet)
+                {
+                    Hospital.Models.Doctor temp = new Hospital.Models.Doctor();
+                    temp.Map(doctor);
+                    doctors.Add(temp);
+                }
+                return JsonConvert.SerializeObject(doctors);
+            }
+            return JsonConvert.SerializeObject(new { });
         }
     }
 }

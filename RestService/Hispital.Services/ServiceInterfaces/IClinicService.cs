@@ -9,6 +9,7 @@ namespace Hispital.Services.ServiceInterfaces
 {
     public interface IClinicService
     {
-        List<HospitalModel> getHospital(string hospital_id);
+         string GetHospital(long hospital_id);
+         string GetAllHospitals();
     }
 }

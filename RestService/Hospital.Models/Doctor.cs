@@ -9,6 +9,7 @@ namespace Hospital.Models
     public class Doctor
     {
         public long DoctorId { get; set; }
+        public long HospitalId { get; set; }
 
         public string FirstName { get; set; }
 
@@ -22,6 +23,7 @@ namespace Hospital.Models
         public void Map(Hospital.Database.Doctor other)
         {
             DoctorId = other.doctor_id;
+            HospitalId = other.hospital_id;
             FirstName = other.first_name;
             SecondName = other.second_name;
             LastName = other.last_name;

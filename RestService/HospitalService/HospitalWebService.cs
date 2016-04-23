@@ -1,90 +1,96 @@
-﻿using System.ServiceModel;
-using System.ServiceModel.Web;
+﻿using Hospital.Models;
+using System;
 using System.Collections.Generic;
-using Hospital.Models;
+using System.Linq;
+using System.Runtime.Serialization;
+using System.ServiceModel;
+using System.ServiceModel.Web;
+using System.Text;
 
-namespace RestService
+namespace HospitalService
 {
     [ServiceContract]
-    public interface IHospitalService
+    public interface HospitalWebService
     {
 
         // ------------------------------------ Patient Services
         [OperationContract]
         [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Bare, UriTemplate = "patient/{id}")]
-        List<Patient> getPatient(string id);
+        string GetPatient(long id);
 
         [OperationContract]
         [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Bare, UriTemplate = "patient/{username}/password{password}")]
-        List<Patient> getUserByUsernameAndPassword(string username, string password);
+        string GetPatientByUsernameAndPassword(string username, string password);
 
         [OperationContract]
         [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Bare, UriTemplate = "patient/egn/{egn}/password{password}")]
-        List<Patient> getUserByEGNAndPassword(string egn, string password);
+        string GetPatientByEGNAndPassword(string egn, string password);
 
         [OperationContract]
-        [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Bare,
+        [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Bare,
             UriTemplate = "patient/{id}/{gender}/{username}/{password}/{first_name}/{second_name}/{last_name}/{egn}/{age}/{birth_date}")]
-        string AddNewPatient(string id, string gender, string username, string password, string first_name, string second_name, string last_name, string egn, string age, string birth_date);
+        bool AddNewPatient(long id, string gender, string username, string password, string first_name, string second_name, string last_name, string egn, int age, string birth_date);
+
 
 
 
         // ------------------------------------- Hospital Services
         [OperationContract]
         [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Bare, UriTemplate = "hospital/{id}")]
-        List<HospitalModel> getHospital(string id);
+        string GetHospital(long id);
+
+        [OperationContract]
+        [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Bare, UriTemplate = "hospitals")]
+        string GetAllHospitals();
 
 
 
         // ------------------------------------- Doctor Services
         [OperationContract]
         [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Bare, UriTemplate = "doctor/{id}")]
-        List<Doctor> getDoctor(string id);
+        string GetDoctor(long id);
 
         [OperationContract]
         [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Bare, UriTemplate = "doctor/hospital/{hospital_id}")]
-        List<Doctor> getDoctorByHospitalId(string hospital_id);
+        string GetDoctorsByHospitalId(long hospital_id);
 
+        [OperationContract]
+        [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Bare, UriTemplate = "doctors")]
+        string GetAllDoctors();
 
 
         // ------------------------------------- Allergies Services
         [OperationContract]
         [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Bare, UriTemplate = "allergies")]
-        List<Allergy> getAllAllergies();
-
-
-        [OperationContract]
-        [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Bare, UriTemplate = "allergies/{allergy_id}")]
-        string AddNewAllergy(string allergy_id);
-
+        string GetAllAllergies();
 
 
         // ------------------------------------- Patient History Services
         [OperationContract]
         [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Bare, UriTemplate = "record/{id}")]
-        List<History> getHospitalRecord(string id);
+        string GetHospitalRecord(long id);
 
         [OperationContract]
         [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Bare, UriTemplate = "record/patient/{patient_id}")]
-        List<History> getHospitalRecordByPatientID(string patient_id);
+        string GetHospitalRecordByPatientID(long patient_id);
 
         [OperationContract]
         [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Bare, UriTemplate = "record/hospital/{hospital_id}")]
-        List<History> getHospitalRecordByHospitalID(string hospital_id);
+        string GetHospitalRecordByHospitalID(long hospital_id);
 
         [OperationContract]
         [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Bare, UriTemplate = "record/doctor/{doctor_id}")]
-        List<History> getHospitalRecordByDoctorID(string doctor_id);
+        string GetHospitalRecordByDoctorID(long doctor_id);
 
         [OperationContract]
         [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Bare, UriTemplate = "record/date/{date}")]
-        List<History> getHospitalRecordByDate(string date);
+        string GetHospitalRecordByDate(string date);
 
 
         [OperationContract]
         [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Bare,
             UriTemplate = "record/{id}/{patient_id}/{hospital_id}/{doctor_id}/{reason}/{diagnose}/{date}/{description}")]
-        List<History> addNewHospitalRecord(string id, string patient_id, string hospital_id, string doctor_id, string reason, string diagnose, string date, string description);
+        string AddNewHospitalRecord(long id, long patient_id, long hospital_id, long doctor_id, string reason, string diagnose, string date, string description);
 
 
 
@@ -92,29 +98,27 @@ namespace RestService
         // ------------------------------------- Scheduled visitation Services
         [OperationContract]
         [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Bare, UriTemplate = "visitation/{id}")]
-        List<ScheduledVisitation> GetVisitation(string id);
+        string GetVisitation(long id);
 
         [OperationContract]
         [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Bare, UriTemplate = "visitation/patient/{patient_id}")]
-        List<ScheduledVisitation> GetVisitationByPatientID(string patient_id);
+        string GetVisitationByPatientID(long patient_id);
 
         [OperationContract]
         [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Bare, UriTemplate = "visitation/hospital/{hospital_id}")]
-        List<ScheduledVisitation> GetVisitationByHospitalID(string hospital_id);
+        string GetVisitationByHospitalID(long hospital_id);
 
         [OperationContract]
         [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Bare, UriTemplate = "visitation/doctor/{doctor_id}")]
-        List<ScheduledVisitation> GetVisitationByDoctorID(string doctor_id);
+        string GetVisitationByDoctorID(long doctor_id);
 
         [OperationContract]
         [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Bare, UriTemplate = "visitation/date/{date}")]
-        List<ScheduledVisitation> GetVisitationByDate(string date);
+        string GetVisitationByDate(string date);
 
         [OperationContract]
         [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Bare,
             UriTemplate = "visitation/{id}/{patient_id}/{hospital_id}/{doctor_id}/{reason}/{diagnose}/{date}/{description}")]
-        string AddNewVisitation(string id, string patient_id, string hospital_id, string doctor_id, string reason, string diagnose, string date, string description);
-
-
+        string AddNewVisitation(long id, long patient_id, long hospital_id, long doctor_id, string reason, string diagnose, string date, string description);
     }
 }

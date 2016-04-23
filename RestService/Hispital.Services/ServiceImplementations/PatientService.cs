@@ -1,31 +1,59 @@
 ﻿using Hispital.Services.ServiceInterfaces;
 using Hospital.Database;
-using Hospital.Models;
-using System;
-using System.Collections.Generic;
+using Newtonsoft.Json;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Hispital.Services.ServiceImplementations
 {
     public class PatientService : IPatientService
     {
-        public List<Hospital.Models.Patient> GetAllPatients(string id)
+        public string GetPatient(long patient_id)
+        {
+            HospitalDatabaseEntities database = new HospitalDatabaseEntities();         
+
+            var resultSet = database.Patients.Where(patient => patient.patient_id == patient_id).ToList();
+
+            Hospital.Models.Patient returnedPatient = new Hospital.Models.Patient();
+            if (resultSet.Count == 1)
+            {
+                returnedPatient.Map(resultSet.FirstOrDefault());
+                return JsonConvert.SerializeObject(returnedPatient);
+            }
+
+            return JsonConvert.SerializeObject(new { });
+        }
+
+
+        public string GetPatientByUsernameAndPassword(string username, string password)
         {
             HospitalDatabaseEntities database = new HospitalDatabaseEntities();
-            List<Hospital.Database.Patient> DatabasePatients = new List<Hospital.Database.Patient>();
-            List<Hospital.Models.Patient> ModelPatients = new List<Hospital.Models.Patient>();
 
-            long patient_id = Convert.ToInt64(id);
-            var result = database.Patients.Where(p => p.patient_id == patient_id).ToList();
-            DatabasePatients = result;
+            var resultSet = database.Patients.Where(patient => patient.username.Equals(username) && patient.password.Equals(password)).ToList();
 
-            Hospital.Models.Patient pat = new Hospital.Models.Patient();
-            pat.Map(DatabasePatients.FirstOrDefault()); 
+            Hospital.Models.Patient returnedPatient = new Hospital.Models.Patient();
+            if (resultSet.Count == 1)
+            {
+                returnedPatient.Map(resultSet.FirstOrDefault());
+                return JsonConvert.SerializeObject(returnedPatient);
+            }
 
-            ModelPatients.Add(pat);
-            return ModelPatients;
+            return JsonConvert.SerializeObject(new { });
+        }
+
+        public string GetPatientByEGNAndPassword(string egn, string password)
+        {
+            HospitalDatabaseEntities database = new HospitalDatabaseEntities();
+
+            var resultSet = database.Patients.Where(patient => patient.username.Equals(egn) && patient.password.Equals(password)).ToList();
+
+            Hospital.Models.Patient returnedPatient = new Hospital.Models.Patient();
+            if (resultSet.Count == 1)
+            {
+                returnedPatient.Map(resultSet.FirstOrDefault());
+                return JsonConvert.SerializeObject(returnedPatient);
+            }
+
+            return JsonConvert.SerializeObject(new { });
         }
     }
 }

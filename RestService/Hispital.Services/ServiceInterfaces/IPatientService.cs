@@ -9,6 +9,10 @@ namespace Hispital.Services.ServiceInterfaces
 {
     public interface IPatientService
     {
-        List<Patient> GetAllPatients(string id);
+        string GetPatient(long patient_id);
+
+        string GetPatientByUsernameAndPassword(string username, string password);
+
+        string GetPatientByEGNAndPassword(string egn, string password);
     }
 }

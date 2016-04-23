@@ -7,12 +7,11 @@ using System.Threading.Tasks;
 
 namespace Hispital.Services.ServiceInterfaces
 {
-    public interface IDoctorService
+    public interface IAllergyService
     {
-        string GetDoctor(long doctor_id);
+         string getAllAllergies();
 
-        string GetDoctorsByHospitalId(long hospital_id);
+         Boolean AddNewAllergy(string allergy);
 
-        string GetAllDoctors();
     }
 }

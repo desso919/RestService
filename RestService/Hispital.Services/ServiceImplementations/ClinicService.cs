@@ -1,6 +1,7 @@
 ﻿using Hispital.Services.ServiceInterfaces;
 using Hospital.Database;
 using Hospital.Models;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,21 +12,41 @@ namespace Hispital.Services.ServiceImplementations
 {
     public class ClinicService : IClinicService
     {
-        public List<HospitalModel> getHospital(string hospital_id)
+        public string GetHospital(long hospital_id)
         {
             HospitalDatabaseEntities database = new HospitalDatabaseEntities();
-            List<HospitalModel> hospitals = new List<HospitalModel>();
 
-            long requested_hospital_id = Convert.ToInt64(hospital_id);
-            var result = database.Hospitals.Where(hospital => hospital.hospital_id == requested_hospital_id).ToList();
+            var resultSet = database.Hospitals.Where(hospital => hospital.hospital_id == hospital_id).ToList();
 
-            Hospital.Models.HospitalModel hos = new Hospital.Models.HospitalModel();
-            if( result.Count > 0) 
+            Hospital.Models.HospitalModel findedHospital = new Hospital.Models.HospitalModel();
+            if (resultSet.Count == 1) 
             {
-                hos.Map(result.FirstOrDefault());
-                hospitals.Add(hos);
-            }          
-            return hospitals;
+                findedHospital.Map(resultSet.FirstOrDefault());
+                return JsonConvert.SerializeObject(findedHospital);
+            }
+
+            return JsonConvert.SerializeObject(new { }); ;
+        }
+
+
+        public string GetAllHospitals()
+        {
+            HospitalDatabaseEntities database = new HospitalDatabaseEntities();
+            List<Hospital.Models.HospitalModel> hospitals = new List<Hospital.Models.HospitalModel>();
+
+            var resultSet = database.Hospitals.ToList();
+
+            if (resultSet.Count > 0)
+            {
+                foreach (var hospital in resultSet)
+                {
+                    Hospital.Models.HospitalModel tempHospital = new Hospital.Models.HospitalModel();
+                    tempHospital.Map(hospital);
+                    hospitals.Add(tempHospital);
+                }
+                return JsonConvert.SerializeObject(hospitals);
+            }
+            return JsonConvert.SerializeObject(new { });
         }
     }
 }

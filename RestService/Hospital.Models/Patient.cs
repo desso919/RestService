@@ -23,12 +23,11 @@ namespace Hospital.Models
 
         public int Age { get; set; }
 
-        public DateTime BirhtDate { get; set; }
+        public string  Gender{ get; set; }
 
-        public string FullName
-        {
-            get { return string.Format("{0} {1} {2}", FirstName, SecondName, LastName); }
-        }
+        public string BirhtDate { get; set; }
+
+        public List<Allergy> Allergies { get; set; }
 
         public void Map(Hospital.Database.Patient other)
         {
@@ -38,10 +37,19 @@ namespace Hospital.Models
             SecondName = other.second_name;
             LastName = other.last_name;
             Age = other.age;
+            if (other.gender_id == 1)
+            {
+                Gender = "Male";
+            }
+            else
+            {
+                Gender = "Female";
+            }
             if (other.birth_date.HasValue)
             {
-                BirhtDate = other.birth_date.Value;
+                BirhtDate = other.birth_date.Value.ToShortDateString();
             }
+
         }
 
     }
